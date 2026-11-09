@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Bengali', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overscroll-behavior-y: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100dvh;
+    background-color: #F8F9FA;
+    color: #0F172A;
+  }
+
+  /* Prevent auto-zoom on mobile inputs */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  @media (min-width: 640px) {
+    input, select, textarea {
+      font-size: 0.875rem !important;
+    }
+  }
+}
+
+/* Tabular numbers for financial balance integrity */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Crisp Clean White Card Styling */
+.card-white {
+  background-color: #FFFFFF;
+  border-radius: 1.5rem;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+}
+
+.card-white-sm {
+  background-color: #FFFFFF;
+  border-radius: 1rem;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Mobile safe area utilities */
+.pb-safe {
+  padding-bottom: max(1rem, var(--safe-bottom));
+}
+.pt-safe {
+  padding-top: max(0.5rem, var(--safe-top));
+}
+
+/* ========================================================================= */
+/* CRITICAL THERMAL RECEIPT PRINT MEDIA RULES (58mm, 80mm, A4)               */
+/* ========================================================================= */
+@media print {
+  /* 1. Global Print Reset: Hide all app shells, navigation, buttons */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    font-size: 11pt;
+  }
+
+  /* Hide app chrome, sidebar, headers, navigation bars, and buttons */
+  header, nav, aside, .no-print, button, input, select, .sidebar, .bottom-nav {
+    display: none !important;
+  }
+
+  /* Ensure all parent containers of the printable receipt allow full height expansion */
+  #root, div, main, section {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  /* 2. Target the printable receipt wrapper */
+  .printable-receipt-wrapper {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+  }
+
+  .printable-receipt {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* 58mm Thermal Width (Printed width: 48mm accounting for 5mm printer margin on each side) */
+  .printable-receipt.receipt-58mm {
+    width: 48mm !important;
+    max-width: 48mm !important;
+    min-width: 48mm !important;
+    padding: 2mm 1mm !important;
+    font-size: 9.5pt !important;
+    line-height: 1.25 !important;
+  }
+
+  /* 80mm Thermal Width (Printed width: 72mm accounting for 4mm printer margin on each side) */
+  .printable-receipt.receipt-80mm {
+    width: 72mm !important;
+    max-width: 72mm !important;
+    min-width: 72mm !important;
+    padding: 3mm 2mm !important;
+    font-size: 10.5pt !important;
+    line-height: 1.3 !important;
+  }
+
+  /* A4 Standard Format */
+  .printable-receipt.receipt-a4 {
+    width: 170mm !important;
+    max-width: 170mm !important;
+    margin: 10mm auto !important;
+    padding: 5mm !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Prevent page-breaks inside crucial receipt blocks */
+  .receipt-header,
+  .receipt-meta,
+  .receipt-title,
+  .receipt-totals,
+  .receipt-barcode,
+  .receipt-footer,
+  .receipt-item-row {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* High contrast monochrome text for thermal heads */
+  .printable-receipt * {
+    color: #000000 !important;
+    text-shadow: none !important;
+    border-color: #000000 !important;
+  }
+
+  .printable-receipt .text-slate-400,
+  .printable-receipt .text-slate-500,
+  .printable-receipt .text-slate-600 {
+    color: #222222 !important;
+  }
+
+  .printable-receipt .bg-slate-200\/50,
+  .printable-receipt .bg-slate-100 {
+    background-color: #EEEEEE !important;
+  }
+
+  /* Jagged bottom decoration is screen-only */
+  .receipt-zigzag-bottom {
+    display: none !important;
+  }
+}
+
+@page {
+  margin: 0;
+  size: auto;
+}
